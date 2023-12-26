@@ -1,17 +1,28 @@
-name: Execute Makefile
+name: Build and Test
 
 on:
   push:
     branches:
-      - main  # Change this to your main branch
+      - main
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout Repository
+    - name: Checkout repository
       uses: actions/checkout@v2
 
-    - name: Execute Makefile
-      run: make
+    - name: Install Go 1.21
+      uses: actions/setup-go@v2
+      with:
+        go-version: 1.21
+      id: go
+
+    - name: Run Makefile
+      run: |
+        make
+
+    - name: Run tests
+      run: |
+        make test
